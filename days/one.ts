@@ -1,7 +1,7 @@
 import { readFileSync } from 'fs';
 
 const rawInput = readFileSync('./days/one_input.txt', { encoding: 'utf-8' });
-const actual = rawInput.split('\n\n').map((nl) => nl.split('\n'));
+const actual = rawInput.split('\n\n').map((nl: string) => nl.split('\n'));
 
 const calorieAdder = (inventory: string[]) => inventory.reduce((acc, cur) => acc + +cur, 0);
 
