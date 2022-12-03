@@ -13,12 +13,8 @@ const prioritizer = (char: string) => char.charCodeAt(0) - (char === char.toLowe
 export function partOne(rawInput: string) {
   return rawInput.split('\n').reduce((total, bag) => {
     const [left, right] = bag.splitAt(bag.length / 2);
-    for (const char of left) {
-      if (right.indexOf(char) > -1) {
-        return total + prioritizer(char);
-      }
-    }
-    return total;
+    const [dupe] = left.split('').filter((c) => right.includes(c));
+    return total + prioritizer(dupe);
   }, 0);
 }
 
@@ -28,13 +24,9 @@ export function partTwo(rawInput: string) {
   let match;
 
   while ((match = re.exec(rawInput))) {
-    const [one, two, three] = rawInput.slice(match.index, re.lastIndex).split('\n');
-    for (const char of one) {
-      if (two.indexOf(char) > -1 && three.indexOf(char) > -1) {
-        total += prioritizer(char);
-        break;
-      }
-    }
+    const [a, b, c] = rawInput.slice(match.index, re.lastIndex).split('\n');
+    const [dupe] = a.split('').filter((x) => b.includes(x) && c.includes(x));
+    total += prioritizer(dupe);
   }
   return total;
 }
