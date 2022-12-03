@@ -1,6 +1,3 @@
-import { readFileSync } from 'fs';
-const rounds = readFileSync('./days/two_input.txt', { encoding: 'utf-8' }).split('\n');
-
 const choice: { [k: string]: number } = {
   X: 1,
   Y: 2,
@@ -29,12 +26,12 @@ function chooser(opp: string, res: string) {
   return String.fromCharCode(((((opp.charCodeAt(0) - offset) % 3) + 3) % 3) + 88);
 }
 
-const partOne = (input: string[]) =>
-  input.reduce((acc, [opp, _, ours]) => acc + (RoundOne[opp + ours] || 0) + (choice[ours] || 0), 0);
+export const partOne = (rawInput: string) =>
+  rawInput
+    .split('\n')
+    .reduce((acc, [opp, _, ours]) => acc + (RoundOne[opp + ours] || 0) + (choice[ours] || 0), 0);
 
-const partTwo = (input: string[]) =>
-  input.reduce((acc, [opp, _, result]) => {
+export const partTwo = (rawInput: string) =>
+  rawInput.split('\n').reduce((acc, [opp, _, result]) => {
     return acc + (RoundTwo[result] || 0) + choice[chooser(opp, result)];
   }, 0);
-
-console.log(partOne(rounds));
