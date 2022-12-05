@@ -1,44 +1,18 @@
-const test = `2-4,6-8
-2-3,4-5
-5-7,7-9
-2-8,3-7
-6-6,4-6
-2-6,4-8`;
+const LHPairParse = (highLowPair: string) => {
+  const [[x1, x2], [y1, y2]] = highLowPair.split(',').map((p) => p.split('-').map((s) => +s));
+  return { x1, x2, y1, y2 };
+};
 
 export function partOne(rawInput: string) {
-  let total = 0;
-  const pairs = rawInput.split('\n');
-  for (const pair of pairs) {
-    const [one, two] = pair.split(',');
-    const [oneLow, oneHigh] = one.split('-');
-    const [twoLow, twoHigh] = two.split('-');
-    if (
-      (+oneLow <= +twoLow && +oneHigh >= +twoHigh) ||
-      (+twoLow <= +oneLow && +twoHigh >= +oneHigh)
-    ) {
-      total++;
-    }
-  }
-
-  return total;
+  return rawInput.split('\n').reduce((total, pair) => {
+    const { x1, x2, y1, y2 } = LHPairParse(pair);
+    return (x1 <= y1 && x2 >= y2) || (y1 <= x1 && y2 >= x2) ? total + 1 : total;
+  }, 0);
 }
 
 export function partTwo(rawInput: string) {
-  let total = 0;
-  const pairs = rawInput.split('\n');
-  for (const pair of pairs) {
-    const [one, two] = pair.split(',');
-    const [oneLow, oneHigh] = one.split('-');
-    const [twoLow, twoHigh] = two.split('-');
-    if (
-      (+oneLow <= +twoLow && +oneHigh >= +twoLow) ||
-      (+oneLow <= +twoHigh && +oneHigh >= +twoHigh) ||
-      (+twoLow <= +oneLow && +twoHigh >= +oneLow) ||
-      (+twoLow <= +oneHigh && +twoHigh >= +oneHigh)
-    ) {
-      total++;
-    }
-  }
-
-  return total;
+  return rawInput.split('\n').reduce((total, pair) => {
+    const { x1, x2, y1, y2 } = LHPairParse(pair);
+    return x1 <= y2 && y1 <= x2 ? total + 1 : total;
+  }, 0);
 }
