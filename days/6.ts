@@ -1,4 +1,4 @@
-export function findUniqueWindow(input: string, window: number) {
+function findUniqueWindow(input: string, window: number) {
   for (let i = 0; i < input.length; i++) {
     const set = new Set();
     input
